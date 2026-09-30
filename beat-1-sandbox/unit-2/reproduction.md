@@ -17,7 +17,7 @@ label is not graded.
 
 [Your GitHub username, exactly as it appears on your profile — no `@`, no profile URL. Your
 comments upstream are identified by this name.]
-
+nic-now
 ---
 
 ## Posted upstream
@@ -42,28 +42,42 @@ fields.
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
+<!-- [The agreement score of each run you did, in order. A single run is a complete answer if
 only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+`eval-run.txt` you committed** — that file is the record of your final run.] -->
+First run: 15/20
+Run after editing rubric: 15/20 (with different accepted/rejected packages)
+Last run: 20/20
 
 **Package analysis**
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
+<!-- [Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
 scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+explain why your rubric read it that way.] -->
+
+pkg-16: rubric said accept, gold said reject. The report shows the right crash, but uses pandas 1.5.3 when the issue was confirmed on latest (3.0.5) and main. The version gap is never mentioned. My check was only looking at whether the artifact matched the crash, not whether the environment matched the issue's target.
 
 **Check rationale**
 
-[Quote one check from the `rubric.md` you uploaded to `tools/repro-check/`, exactly as it reads now.
+<!-- [Quote one check from the `rubric.md` you uploaded to `tools/repro-check/`, exactly as it reads now.
 Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+favour of it.] -->
+
+"| matches-issue | Any output, log excerpt, error message, or screenshot in the report, read against the error or behavior described in the original issue | Either: the artifact shows the same bug the issue describes on an environment matching the issue's target version (or deviation is explicitly stated), OR the report honestly states cannot-reproduce with real evidence of what was tried and names what differed; fail if reproduction is claimed but the artifact shows a different bug, or if the version silently mismatches the issue's stated target without acknowledgment. | required |"
+
+I rewrote this twice:
+- First version failed honest cannot-reproduce packages (pkg-09, pkg-10) because no bug was shown
+- Loosened it to allow cannot-reproduce with evidence
+- Added the silent version mismatch condition to still catch pkg-16
 
 **Trade-offs**
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
+<!-- [Every check gives something up. Any one of these is a complete answer: a package whose
 result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
 stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+the point in full when the reason follows.] -->
+
+Loosening matches-issue to allow cannot-reproduce risked flipping wrong-target packages. I re-ran pkg-02, pkg-08, and pkg-17 as canaries after the change and they all kept as reject so nothing broke.
 
 ---
 
