@@ -53,8 +53,10 @@ packages designed around that family.
 | environment-present | Environment section of the repro report | Report names the tool/language version and OS; "latest" or "Windows" alone fails | required |
 | minimal-steps | Steps section of the repro report | A stranger could follow the steps top-to-bottom and trigger the bug without guessing any missing input, command, or setup | required |
 | expected-vs-actual | Outcome section of the repro report | Report states both what was expected and what actually happened; one without the other fails | required |
-| matches-issue | Any output, log excerpt, error message, or screenshot in the report, read against the error or behavior described in the original issue | The artifact shows the same bug the issue describes; a different error or an adjacent failure is a fail | required |
+| matches-issue | Any output, log excerpt, error message, or screenshot in the report, read against the error or behavior described in the original issue | Either: the artifact shows the same bug the issue describes on an environment matching the issue's target version (or deviation is explicitly stated), OR the report honestly states cannot-reproduce with real evidence of what was tried and names what differed; fail if reproduction is claimed but the artifact shows a different bug, or if the version silently mismatches the issue's stated target without acknowledgment. | required |
 | artifact-shown | Any output, log excerpt, error message, or screenshot attached to the report | At least one artifact (error message, log snippet, or screenshot) is present | preferred |
+| communication | The claim comment text | The comment is specific to this issue and states what was found or what will be done next; boilerplate language, demands to assign, or promised timelines ("fix ... guaranteed") fail | required |
+| disclosure | The repo-facts contribution policy line, and the claim and repro comments | If the repo's policy requires AI disclosure, the outgoing comments satisfy what the policy actually asks (read the policy first, then check the comment against it); if the policy is silent, pass regardless | required |
 
 ## Verdict rule
 
