@@ -23,7 +23,20 @@ https://github.com/codepath/pathreview-ai301-fa26-s1/issues/56
 [Your skill's live-mode output for this issue, pasted verbatim and ending with the
 fenced JSON verdict block. A summary does not satisfy this field.]
 
-Issue #56 — "Structural chunker silently drops documents that contain no headings"
+---
+  1. #56 (top pick) — Tier-1, labeled "good first issue," single-method fix in a Python RAG/chunking component (AI/ML
+  adjacent), minimal codebase context required, clear reproduction snippet. Best match for limited time + preference for
+  simple bugs.
+
+**The verdict must record `accept` for this issue.** Choose an issue your own skill
+accepts. If your skill rejects every candidate you try, that is a signal about your
+rubric rather than about the issues: revise it and re-run — retries are unlimited and a
+partial re-run costs about $0.20 — or run the skill on different candidates. Output
+recording `reject` for the issue you chose earns no credit for this field.
+
+``` json
+---
+  Issue #56 — "Structural chunker silently drops documents that contain no headings"
 
   ┌────────────────────────┬───────┬─────────────────────────────────────────────────────────────────────────────────────┐
   │         Check          │ Grade │                                      Evidence                                       │
@@ -98,19 +111,6 @@ Issue #56 — "Structural chunker silently drops documents that contain no headi
       "verdict": "accept"
     }
   ]
----
-  1. #56 (top pick) — Tier-1, labeled "good first issue," single-method fix in a Python RAG/chunking component (AI/ML
-  adjacent), minimal codebase context required, clear reproduction snippet. Best match for limited time + preference for
-  simple bugs.
-
-**The verdict must record `accept` for this issue.** Choose an issue your own skill
-accepts. If your skill rejects every candidate you try, that is a signal about your
-rubric rather than about the issues: revise it and re-run — retries are unlimited and a
-partial re-run costs about $0.20 — or run the skill on different candidates. Output
-recording `reject` for the issue you chose earns no credit for this field.
-
-```
-paste the output here, including the closing JSON block
 ```
 
 ---
@@ -121,27 +121,41 @@ Quote source text directly in each field below. Paraphrase does not satisfy them
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
+<!-- [The agreement score of each run you did, in order. A single run is a complete answer if
 only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+`eval-run.txt` you committed** — that file is the record of your final run.] -->
+
+First run: 10/20
+Second run: 18/20
 
 **Issue analysis**
 
-[One scored issue, identified by id (`issue-01` through `issue-20`; the `calib-`
+<!-- [One scored issue, identified by id (`issue-01` through `issue-20`; the `calib-`
 issues are not scored). State your rubric's decision, the gold label, and the
-reasoning that produced your rubric's result.]
+reasoning that produced your rubric's result.] -->
+
+id: issue-15
+rubric=accept
+gold=reject
+The issue had two closed linked PRs and many claim comments, but all were old, the most recent visible claim was from 2024, so outside the 30 day window. The rubric's issue-is-free check only looks for open PRs and recent unanswered claims, so it passed. Gold rejected it because the long history of abandoned attempts signals the issue is harder or more stuck than it looks, which the rubric had no check for.
 
 **Check rationale**
 
-[One check from the `rubric.md` uploaded to `tools/issue-select/`, quoted as it is
-currently written, with the reasoning behind its current form.]
+<!-- [One check from the `rubric.md` uploaded to `tools/issue-select/`, quoted as it is
+currently written, with the reasoning behind its current form.] -->
+
+"| Issue is free | `"this issue: assignees:"` and `"linked PRs:"` with state per PR under repo facts (eval bundle); comment thread for claim phrases ("I'll take this", "working on this") and whether a maintainer replied | Assignees box is empty, no open linked PR exists, and no unanswered claim comment appears within the last 30 days | required |"
+
+The 30 day window for claim comments is a judgment call. Shorter would reject issues where an old comment is just noise; longer would incorrectly block issues that have been sitting untouched for months. I set it at 30 days to balance both
 
 **Trade-offs**
 
-[What the quoted check gives up. Any one of these is a complete answer: an issue whose
+<!-- [What the quoted check gives up. Any one of these is a complete answer: an issue whose
 result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
 stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+the point in full when the reason follows.] -->
+
+The check accepts issues with a pattern of repeated failed attempts, like issue-15, as long as no open PR or recent claim exists. It cannot detect that multiple people have tried and abandoned the same issue, which is a real signal that something is wrong with it.
 
 ---
 
@@ -153,12 +167,16 @@ This is also the basis for the claim comment you write in Unit 2.
 
 **Selection rationale**
 
-[Answer all three:
+<!-- [Answer all three:
 
 1. The issue's fit to your interests and to the time available.
 2. What the verdict identified correctly, and what you weighed that the rubric could
    not.
-3. The anticipated difficulty in claiming it.]
+3. The anticipated difficulty in claiming it.] -->
+
+1. The issue is interesting to me because it deals in some sorts with RAG (though its more data processing), which could help me learn more about things to consider when doing my own version. Also, it is listed as tier-1, and as a good first issue, and it's a parsing-related issue, thus I think I can address it in time.
+2. The skill correctly identified the issue was free (no assignee, no open PR), the repo was active, and the scope was a single bounded fix in one method. What the rubric could not weigh: whether the codebase was approachable for me specifically (Python, small component, no framework knowledge needed), and whether the bug was simple enough to trace without deep context of the full system.
+3. For claiming, I believe it shouldn't be too hard, given that reproduction instructions are ~clear, as well as instructions on repo.
 
 ---
 
