@@ -15,8 +15,8 @@ label is not graded.
 
 **GitHub username**
 
-[Your GitHub username, exactly as it appears on your profile — no `@`, no profile URL. Your
-comments upstream are identified by this name.]
+<!-- [Your GitHub username, exactly as it appears on your profile — no `@`, no profile URL. Your
+comments upstream are identified by this name.] -->
 nic-now
 ---
 
@@ -24,16 +24,64 @@ nic-now
 
 **Claim comment**
 
-[Link to the comment where you claimed the issue. Use the comment's own permalink, not the
+<!-- [Link to the comment where you claimed the issue. Use the comment's own permalink, not the
 issue page on its own. **Then paste the text of that comment underneath the link** — the
-pasted text is what this field is graded on, so copy across what you actually posted.]
+pasted text is what this field is graded on, so copy across what you actually posted.] -->
+
+https://github.com/codepath/pathreview-ai301-fa26-s1/issues/56#issuecomment-5988375860
+
+Hi, I would like to work on this issue as a first contribution. I'll reproduce the bug and post a report below. My plan is to run the failing test (test_document_with_no_heading) to confirm the behavior, then trace through the StructuralChunker.chunk() to better understand how the mentioned documents are handled.
 
 **Reproduction comment**
 
-[Link to the comment where you posted your reproduction. It must record the environment
+<!-- [Link to the comment where you posted your reproduction. It must record the environment
 (OS, relevant versions, code state), steps a stranger could follow, and what you observed.
 **Then paste the text of that comment underneath the link** — the pasted text is what this
-field is graded on, so copy across what you actually posted.]
+field is graded on, so copy across what you actually posted.] -->
+
+https://github.com/codepath/pathreview-ai301-fa26-s1/issues/56#issuecomment-5988964510
+
+Reproduced on main, the issue's snippet returns 0 checks
+
+**Environment:**
+- OS: Windows 11 Pro
+- Dependencies: pytest 9.1.1, tiktoken 0.14.0
+- Python: 3.14.2 (SETUP.md lists 3.11, so mine is newer)
+- Repo: up-to-date personal fork (nic-now/pathreview-ai301-fa26-s1, main at commit f89c06f)
+
+
+**Steps to reproduce bug:**
+1. Clone the repo and create a venv: `python -m venv .venv`
+2. Install dependencies: `.venv\Scripts\pip install -e ".[dev]"` 
+3. Run the snippet from the issue:
+   `.venv\Scripts\python -c "from ingestion.chunking.structural_chunker import StructuralChunker; c = StructuralChunker(); print(len(c.chunk('This is a plain document with no headings at all. ' * 20, {})))"`
+4. Run the test with `--runxfail` so the real failure shows (it is marked xfail for this issue):
+   `.venv\Scripts\python -m pytest tests/unit/test_structural_chunker.py::TestStructuralChunker::test_document_with_no_headings --runxfail`
+
+**Output:**
+```
+0
+```
+
+**Test output:**
+```
+tests\unit\test_structural_chunker.py F                                  [100%]
+
+>       assert len(result) >= 1
+E       assert 0 >= 1
+E        +  where 0 = len([])
+
+tests\unit\test_structural_chunker.py:36: AssertionError
+FAILED tests/unit/test_structural_chunker.py::TestStructuralChunker::test_document_with_no_headings
+============================== 1 failed in 1.04s ==============================
+```
+
+**Expected:**
+A document with no headings should come back as at least one chunk so it still gets indexed
+
+**Actual:**
+`chunk()` returns an empty list so the document is silently dropped
+
 
 ## Eval iterations
 
